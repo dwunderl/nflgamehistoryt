@@ -2,6 +2,8 @@ import fs = require("fs");
 import csv = require("fast-csv");
 import Fiber = require("fibers");
 
+// Global Variables
+
 var numGames = 0;
 var numTeams = 0;
 var teams = new Array();
