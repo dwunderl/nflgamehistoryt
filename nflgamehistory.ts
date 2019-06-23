@@ -20,22 +20,21 @@ function sleep(ms) {
 ///////////////////////////////////////////
 // nflGame
 // Models an nfl game matchup
-// homeTeam, awayTeam : object references, not just names
+// homeTeam, awayTeam names
 ///////////////////////////////////////////
 
-function nflGame (homeTeamName,awayTeamName) {
-    this.homeTeam = homeTeamName;
-    this.awayTeam = awayTeamName;
-}
+class nflGame {
+   homeTeam : String;
+   awayTeam : String;
 
-nflGame.prototype.getInfo = function() {
-   return this.homeTeam + ' vs ' + this.awayTeam;
-};
+   constructor (homeTeamName : String, awayTeamName : String) {
+      this.homeTeam = homeTeamName;
+      this.awayTeam = awayTeamName;  
+   }
 
-// find function
-// passed "this" is another game
-function gameMatch(g) {
-  return (g.homeTeam === this.homeTeam && g.awayTeam === this.awayTeam);
+   getInfo() {
+      return this.homeTeam + ' vs ' + this.awayTeam;
+   }
 }
 
 function processGameCsvLine(data){
