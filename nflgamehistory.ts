@@ -575,7 +575,7 @@ function createDivisionalMatchups(nflseasons,curSeasonMatchups) {
    }
 }
 
-function writeGamesCsv(gameFile, seasonMatchups) {
+function writeGamesCsv2(gameFile, seasonMatchups) {
    var gameWriteStream = fs.createWriteStream(gameFile);
 
   writeGamesCsvDivisionMatchups(gameWriteStream, seasonMatchups.divisionMatchups, ",division");
@@ -604,6 +604,21 @@ function writeGamesCsvDivisionMatchups(gameWriteStream, dmus, param) {
    }
 }
 
+function writeGamesCsv(gameFile, games) {
+   var gameWriteStream = fs.createWriteStream(gameFile);
+
+   var i : number; 
+
+    for (i=0; i < games.length; i++) {
+      var game = games[i];
+      var homeTeamName = game.homeTeam;
+      var awayTeamName = game.awayTeam;
+      gameWriteStream.write(homeTeamName + "," + awayTeamName + "\n");
+    }
+
+   gameWriteStream.close();
+}
+
 ////////////////
 // main function
 ////////////////
@@ -623,11 +638,17 @@ function() {
     console.log("Historical Input File: " + historicalInputFile);
     console.log("Historical Output File: " + historicalOutputFile);
     
+    // Read the historical input file and populate the games collection
     fs.createReadStream(historicalInputFile).pipe(csv())
                                    .on('data',processGameCsvLine)
                                    .on('end',endGamesCsvFile);
     sleep(100);
 
+    // Write out the historical output csv file in Nfl Scheduling system format
+    // By traversing the games collection
+
+    writeGamesCsv(historicalOutputFile, games);
+    
     /*
     fs.createReadStream('nflteams.csv').pipe(csv())
                                    .on('data',processTeamCsvLine)
